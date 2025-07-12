@@ -34,7 +34,7 @@ for start in stations:
             "origin": start,
             "destination": end,
             "total_cost": total_cost,
-            "nodes": json.dumps(nodes),
+            "nodes": json.dumps(nodes).replace('"', "'"),
             "edges": json.dumps(edges),
             "costs": json.dumps(costs)
         }
