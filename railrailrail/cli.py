@@ -147,5 +147,3 @@ if __name__ == "__main__":  # pragma: no cover
             walk=args.walk,
         )
         print("\n".join(rail_graph.make_directions(pathinfo)))
-        print(dir(rail_graph))
-        print(pathinfo)

@@ -18,6 +18,14 @@
   </p>
 </div>
 
+> [!NOTE]
+> **This is a fork** of [elliotwutingfeng/railrailrail](https://github.com/elliotwutingfeng/railrailrail) by Wu Tingfeng, licensed under the [Apache License 2.0](LICENSE), kept for [Metrograf](https://metrograf.xyz). Changes by mmmikkel:
+>
+> - added `railrailrail/script.py`, which routes every pair of stations on one network stage;
+> - added `all_routes.csv`, its output, which Metrograf uses for its routes.
+>
+> Everything else is upstream, unchanged. The dataset notices in [LICENSE-DATASET.md](LICENSE-DATASET.md) apply to `all_routes.csv` too.
+
 railrailrail finds fastest routes between any 2 stations on the Singapore MRT/LRT rail network. It supports all known past and future stages of the network (1987-2040+).
 
 ## Features
