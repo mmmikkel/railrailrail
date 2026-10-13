@@ -21,8 +21,10 @@
 > [!NOTE]
 > **This is a fork** of [elliotwutingfeng/railrailrail](https://github.com/elliotwutingfeng/railrailrail) by Wu Tingfeng, licensed under the [Apache License 2.0](LICENSE), kept for [Metrograf](https://metrograf.xyz). Changes by mmmikkel:
 >
-> - added `railrailrail/script.py`, which routes every pair of stations on one network stage;
-> - added `all_routes.csv`, its output, which Metrograf uses for its routes.
+> - added `railrailrail/script.py`, which routes every pair of stations on the network stage it's given
+>   (`uv run python railrailrail/script.py config/network_ccl_6.toml`), in real station codes: a stage's
+>   stand-in codes, such as CE0Y for Nicoll Highway before Circle Line Stage 6, become the real ones;
+> - added `all_routes.csv`, its output for the latest stage Metrograf has a month on (Circle Line Stage 6).
 >
 > Everything else is upstream, unchanged. The dataset notices in [LICENSE-DATASET.md](LICENSE-DATASET.md) apply to `all_routes.csv` too.
 

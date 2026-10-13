@@ -1,10 +1,20 @@
+"""Routes every pair of stations on one stage of the network, into all_routes.csv, for Metrograf.
+
+    uv run python railrailrail/script.py config/network_ccl_6.toml
+
+The network file is the stage open in the month routed (config/ holds copies of config_examples/).
+"""
 import csv
 import json
+import sys
 from railrailrail.railgraph import RailGraph
+
+if len(sys.argv) != 2:
+    sys.exit(__doc__)
 
 # Setup
 rail_graph = RailGraph.from_file(
-    "config/network_tel_4.toml",
+    sys.argv[1],
     "config/station_coordinates.csv"
 )
 
@@ -26,9 +36,25 @@ for start in stations:
             continue  # skip invalid pairs
         if not pathinfo or not pathinfo.nodes:
             continue
-        nodes = pathinfo.nodes
-        edges = pathinfo.edges
-        costs = pathinfo.costs
+        # Real station codes only: a network can run a line through another's platforms under stand-in
+        # codes (before Circle Line Stage 6, the extension's trains ran through Promenade, Nicoll Highway
+        # and Stadium as CE0Z, CE0Y and CE0X). Each becomes its real code, and a step between a stand-in and
+        # its real code (a change of platforms there) folds into the next step from that station, or at the
+        # end into the last one, so each step's cost stays the time to the next station and they still add
+        # up to the total.
+        real = [rail_graph.station_code_to_station[code].real_station_code for code in pathinfo.nodes]
+        nodes, edges, costs = [real[0]], [], []
+        carried = 0
+        for i, cost in enumerate(pathinfo.costs):
+            if real[i + 1] == nodes[-1]:
+                carried += cost
+                continue
+            nodes.append(real[i + 1])
+            edges.append(pathinfo.edges[i])
+            costs.append(cost + carried)
+            carried = 0
+        if carried and costs:
+            costs[-1] += carried
         total_cost = pathinfo.total_cost
         row = {
             "origin": start,
